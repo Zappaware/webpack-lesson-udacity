@@ -16,7 +16,7 @@ function handleSubmit(event) {
  
 let zipCode = document.getElementById('zip').value
 let countryCode = document.getElementById('country').value
-let appId = `23eaaf61fab62a2f43f0fc31f3893e2a`
+let appId = ``
 const baseUrl = `api.openweathermap.org/data/2.5/weather?`
 let url = `http://${baseUrl}zip=${zipCode},${countryCode}&appid=${appId}&units=imperial`
 console.log("::: Weather Form Submitted :::")
