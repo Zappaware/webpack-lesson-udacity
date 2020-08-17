@@ -20,7 +20,7 @@ console.log("::: MeaningCloud Form Submitted :::")
        const response = await fetch (url,{
            method: 'POST',
            credentials: 'same-origin',
-           mode: "cors"       
+           mode: "cors",
        })
 
        try {
@@ -36,7 +36,8 @@ console.log("::: MeaningCloud Form Submitted :::")
     const response = await fetch (url,{
         method: 'POST',
         credentials: 'same-origin',
-        mode: "cors"       
+        mode: "cors",
+        body: JSON.stringify(data)       
     })
 
     try {
@@ -52,8 +53,8 @@ console.log("::: MeaningCloud Form Submitted :::")
    const getData = async (url='') => {
     const request = await fetch(url);
 
-    try{
-        const allData = await request.json();
+    try {
+        const allData = await request
         console.log(allData);
     } catch (error) {
         console.log('error', error)
@@ -61,9 +62,11 @@ console.log("::: MeaningCloud Form Submitted :::")
 }
 
 let feeling = document.getElementById('feeling').value
-let appId = ``
-const baseUrl = `https://api.meaningcloud.com/sentiment-2.1?`
-let url = `${baseUrl}key=${appId}&of=json&txt=${feeling}&model=sentiment&lang=en`
+let appId = `79350aa3a3fa44f6f84d665b926aeea3`
+const baseUrl = `https://api.meaningcloud.com/topics-2.0?`
+let url = `${baseUrl}key=${appId}&of=json&lang=en&ilang=en&txt=${feeling}&tt=a&uw=y`
+
+
 
 meaningCloudResponse(url)
 .then((data)=>{
