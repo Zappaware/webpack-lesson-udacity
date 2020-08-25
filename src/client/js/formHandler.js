@@ -24,7 +24,13 @@ console.log("::: MeaningCloud Form Submitted :::")
        })
 
        try {
-           const newData= response.json();
+           const newData = await response.json();
+           const nameData = Promise.resolve(newData.entity_list[0].form)
+           const infoData = Promise.resolve(newData.entity_list[0].semld_list[0])
+           Promise.all([nameData, infoData]).then((values)=>{
+            console.log(values)
+            document.getElementById('info').innerHTML = `Info: ${JSON.stringify(values)}`;
+           })
            return newData
 
        } catch (error){
@@ -32,34 +38,6 @@ console.log("::: MeaningCloud Form Submitted :::")
 
        }
    }
-   const userResponse= async (url, data = {}) =>{
-    const response = await fetch (url,{
-        method: 'POST',
-        credentials: 'same-origin',
-        mode: "cors",
-        body: JSON.stringify(data)       
-    })
-
-    try {
-        const newData= response.json();
-        return newData
-
-    } catch (error){
-        console.log('error', error)
-
-    }
-}
-
-   const getData = async (url='') => {
-    const request = await fetch(url);
-
-    try {
-        const allData = await request
-        console.log(allData);
-    } catch (error) {
-        console.log('error', error)
-    }
-}
 
 let feeling = document.getElementById('feeling').value
 let appId = `79350aa3a3fa44f6f84d665b926aeea3`
@@ -68,17 +46,12 @@ let url = `${baseUrl}key=${appId}&of=json&lang=en&ilang=en&txt=${feeling}&tt=a&u
 
 
 
-meaningCloudResponse(url)
-.then((data)=>{
-    userResponse('/add', {
-      projectData: data  
-    })
-.then(getData('/all'))   
-})
+const getData = () =>{
+meaningCloudResponse(url)  
    
 }
 
+getData();
 
-
-
+}
 export { handleSubmit }
