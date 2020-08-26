@@ -16,6 +16,7 @@ function handleSubmit(event) {
  
 
 console.log("::: MeaningCloud Form Submitted :::")
+
    const meaningCloudResponse= async (url) =>{
        const response = await fetch (url,{
            method: 'POST',
@@ -25,12 +26,19 @@ console.log("::: MeaningCloud Form Submitted :::")
 
        try {
            const newData = await response.json();
-           const nameData = Promise.resolve(newData.entity_list[0].form)
-           const infoData = Promise.resolve(newData.entity_list[0].semld_list[0])
-           Promise.all([nameData, infoData]).then((values)=>{
-            console.log(values)
-            document.getElementById('info').innerHTML = `Info: ${JSON.stringify(values)}`;
-           })
+           let divForm = document.getElementById('form')
+           let i = 0;
+           do { 
+           let nameData = Promise.resolve(newData.entity_list[i].form)
+           nameData.then((value)=>{
+               console.log(value)
+              let newDiv = document.createElement('div')
+              newDiv.setAttribute('class', 'info')
+              divForm.appendChild(newDiv)
+              newDiv.innerHTML = `Proper noun: ${JSON.stringify(value)}`
+           }) 
+           i ++;
+           } while (this.nameData === undefined)
            return newData
 
        } catch (error){
