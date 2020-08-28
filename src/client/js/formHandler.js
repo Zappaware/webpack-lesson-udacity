@@ -2,6 +2,7 @@ function handleSubmit(event) {
     event.preventDefault()
 
     // check what text was put into the form field
+    // This part was made by you in Udacity quarters
     let formText = document.getElementById('name').value
     Client.checkForName(formText)
 
@@ -16,7 +17,7 @@ function handleSubmit(event) {
  
 
 console.log("::: MeaningCloud Form Submitted :::")
-
+/*In this part of the function the code will make de POST request, then it take's the data and make's a do...while loop to select all the proper nouns of the json returned. After that the code make changes dynamically in the page to render it in the browser */
    const meaningCloudResponse= async (url) =>{
        const response = await fetch (url,{
            method: 'POST',
@@ -46,20 +47,20 @@ console.log("::: MeaningCloud Form Submitted :::")
 
        }
    }
-
+//Taking all the elements to construct the url to make the POST request to the MeaningCloud API
 let feeling = document.getElementById('feeling').value
 let appId = `79350aa3a3fa44f6f84d665b926aeea3`
 const baseUrl = `https://api.meaningcloud.com/topics-2.0?`
 let url = `${baseUrl}key=${appId}&of=json&lang=en&ilang=en&txt=${feeling}&tt=a&uw=y`
 
 
-
+// Finally I decided to wrap the request in a function called getData, I don't remember, but I think I doesn't worked when I make some test when I just invoked the function alone.
 const getData = () =>{
 meaningCloudResponse(url)  
-   
 }
 
 getData();
 
 }
+
 export { handleSubmit }
