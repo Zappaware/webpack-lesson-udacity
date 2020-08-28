@@ -49,7 +49,7 @@ console.log("::: MeaningCloud Form Submitted :::")
    }
 //Taking all the elements to construct the url to make the POST request to the MeaningCloud API
 let feeling = document.getElementById('feeling').value
-let appId = `79350aa3a3fa44f6f84d665b926aeea3`
+let appId = ``
 const baseUrl = `https://api.meaningcloud.com/topics-2.0?`
 let url = `${baseUrl}key=${appId}&of=json&lang=en&ilang=en&txt=${feeling}&tt=a&uw=y`
 
