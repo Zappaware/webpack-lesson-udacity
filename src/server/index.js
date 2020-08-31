@@ -1,3 +1,4 @@
+//Starting point for all the dependencies
 projectData = {};
 const dotenv = require('dotenv')
 dotenv.config();
@@ -7,8 +8,7 @@ const mockAPIResponse = require('./mockAPI.js');
 const bodyParser = require('body-parser');
 
 
-
-
+//Right here it is the starting point for the require and use methods for the server to use
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -47,16 +47,18 @@ app.get('/test', function (req, res) {
 
 const apiKey = process.env.API_KEY;
 
+//GET route for the api key
 app.get('/keyCall', (req, res)=>{
     res.send({key:apiKey})
     console.log(apiKey)
 })
 
+//GET route for all the information
 app.get('/all', (req, res)=>{
     res.send(projectData)
 })
 
-
+//POST route for the postData function
 app.post('/add', (req, res) =>{
     projectData.properNoun = req.body.properNoun;
     console.log(projectData)

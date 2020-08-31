@@ -17,10 +17,11 @@ function handleSubmit(event) {
  })
  
 
-console.log("::: MeaningCloud Form Submitted :::")
+//Starting point to the MeaninCloud platform
 
+ console.log("::: MeaningCloud Form Submitted :::")
 
-
+//Getting the api key from the dotenv enviroment
 const getkey = async () => {
     const response = await fetch('/keyCall');
 
@@ -34,7 +35,7 @@ const getkey = async () => {
     }
 }
 
-
+//Async function to hit the POST request in the Meaning Cloud API
 const MeaningCloudRequest = async (baseUrl, apiKey, userInput) => {
     const response = await fetch(baseUrl+'?key='+apiKey+'&of=json&lang=en&ilang=en&txt='+userInput+'&tt=a&uw=y',{
         method:'POST',
@@ -51,6 +52,7 @@ const MeaningCloudRequest = async (baseUrl, apiKey, userInput) => {
     }
 }
 
+//POST request to send the data from the API
 const postData = async (url=``, data = {}) =>{
     const response = await fetch(url, {
         method:'POST',
@@ -70,6 +72,7 @@ const postData = async (url=``, data = {}) =>{
     }
 }
 
+//Update function that takes the final route to change dynamically the UI
 const getData = async (url) => {
     const response = await fetch(url);
 
@@ -93,6 +96,7 @@ const getData = async (url) => {
     }
 }
 
+//Chainning promises to do all the process when the event it is submitted
 getkey()
 .then((data)=>{
     apiKey = data.key
