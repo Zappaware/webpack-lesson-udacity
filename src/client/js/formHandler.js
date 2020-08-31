@@ -1,3 +1,4 @@
+let apiKey = {};
 function handleSubmit(event) {
     event.preventDefault()
 
@@ -17,20 +18,67 @@ function handleSubmit(event) {
  
 
 console.log("::: MeaningCloud Form Submitted :::")
-/*In this part of the function the code will make de POST request, then it take's the data and make's a do...while loop to select all the proper nouns of the json returned. After that the code make changes dynamically in the page to render it in the browser */
-   const meaningCloudResponse= async (url) =>{
-       const response = await fetch (url,{
-           method: 'POST',
-           credentials: 'same-origin',
-           mode: "cors",
-       })
 
-       try {
-           const newData = await response.json();
+
+
+const getkey = async () => {
+    const response = await fetch('/keyCall');
+
+    try {
+        const keyResponse =  await response.json();
+        //console.log (keyResponse)
+        return keyResponse
+    } catch (error) {
+        console.log('error', error)
+
+    }
+}
+
+
+const MeaningCloudRequest = async (baseUrl, apiKey, userInput) => {
+    const response = await fetch(baseUrl+'?key='+apiKey+'&of=json&lang=en&ilang=en&txt='+userInput+'&tt=a&uw=y',{
+        method:'POST',
+        credentials: 'same-origin',
+        mode: 'cors'
+    } );
+
+    try {
+        const apiResponse = await response.json();
+        console.log(apiResponse)
+        return apiResponse
+    } catch (error) {
+        console.log('error', error)
+    }
+}
+
+const postData = async (url=``, data = {}) =>{
+    const response = await fetch(url, {
+        method:'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    try {
+        const newData = await response.json()
+        console.log (newData)
+        return newData
+    } catch (error) {
+        console.log('error', error)
+    }
+}
+
+const getData = async (url) => {
+    const response = await fetch(url);
+
+    try {
+        const newData = await response.json();
            let divForm = document.getElementById('form')
            let i = 0;
            do { 
-           let nameData = Promise.resolve(newData.entity_list[i].form)
+           let nameData = Promise.resolve(newData.properNoun.entity_list[i].form)
            nameData.then((value)=>{
                console.log(value)
               let newDiv = document.createElement('div')
@@ -40,27 +88,27 @@ console.log("::: MeaningCloud Form Submitted :::")
            }) 
            i ++;
            } while (this.nameData === undefined)
-           return newData
-
-       } catch (error){
-           console.log('error', error)
-
-       }
-   }
-//Taking all the elements to construct the url to make the POST request to the MeaningCloud API
-let feeling = document.getElementById('feeling').value
-let appId = ``
-const baseUrl = `https://api.meaningcloud.com/topics-2.0?`
-let url = `${baseUrl}key=${appId}&of=json&lang=en&ilang=en&txt=${feeling}&tt=a&uw=y`
-
-
-// Finally I decided to wrap the request in a function called getData, I don't remember, but I think I doesn't worked when I make some test when I just invoked the function alone.
-const getData = () =>{
-meaningCloudResponse(url)  
+    } catch(error) {
+        console.log('error', error)
+    }
 }
 
-getData();
+getkey()
+.then((data)=>{
+    apiKey = data.key
+    //console.log(apiKey)
+    return apiKey
+})
+.then((apiData)=>{
+    let userInput = document.getElementById('nameChecker').value;
+    const baseUrl = 'https://api.meaningcloud.com/topics-2.0';
+    MeaningCloudRequest(baseUrl, apiData, userInput)
+    .then((data)=>{
+        postData('/add', {
+            properNoun: data
+        }).then(getData('/all'))
+    })
+})
 
 }
-
 export { handleSubmit }
