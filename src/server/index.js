@@ -1,7 +1,7 @@
 //Starting point for all the dependencies
 projectData = {};
-const dotenv = require('dotenv')
-dotenv.config();
+//const dotenv = require('dotenv')
+//dotenv.config();
 var path = require('path');
 const express = require('express');
 const mockAPIResponse = require('./mockAPI.js');
@@ -45,13 +45,13 @@ app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 });
 
-const apiKey = process.env.API_KEY;
+//const apiKey = process.env.API_KEY;
 
 //GET route for the api key
-app.get('/keyCall', (req, res)=>{
+/*app.get('/keyCall', (req, res)=>{
     res.send({key:apiKey})
     console.log(apiKey)
-})
+})*/
 
 //GET route for all the information
 app.get('/all', (req, res)=>{

@@ -1,28 +1,13 @@
-let apiKey = {};
+let apiKey = process.env.API_KEY;
 function handleSubmit(event) {
-    event.preventDefault()
-
-    // check what text was put into the form field
-    // This part was made by you in Udacity quarters
-    let formText = document.getElementById('name').value
-    Client.checkForName(formText)
-
-    console.log("::: Form Submitted :::")
-    fetch('http://localhost:8081/test')
-    .then(res => {
-     return res.json()
- })
-    .then(function(data) {
-        document.getElementById('results').innerHTML = data.message
- })
- 
-
+    event.preventDefault();
 //Starting point to the MeaninCloud platform
 
  console.log("::: MeaningCloud Form Submitted :::")
+ //console.log(apiKey)
 
 //Getting the api key from the dotenv enviroment
-const getkey = async () => {
+/*const getkey = async () => {
     const response = await fetch('/keyCall');
 
     try {
@@ -33,7 +18,7 @@ const getkey = async () => {
         console.log('error', error)
 
     }
-}
+}*/
 
 //Async function to hit the POST request in the Meaning Cloud API
 const MeaningCloudRequest = async (baseUrl, apiKey, userInput) => {
@@ -97,22 +82,26 @@ const getData = async (url) => {
 }
 
 //Chainning promises to do all the process when the event it is submitted
-getkey()
+/*getkey()
 .then((data)=>{
     apiKey = data.key
     //console.log(apiKey)
     return apiKey
 })
 .then((apiData)=>{
-    let userInput = document.getElementById('nameChecker').value;
-    const baseUrl = 'https://api.meaningcloud.com/topics-2.0';
-    MeaningCloudRequest(baseUrl, apiData, userInput)
-    .then((data)=>{
-        postData('/add', {
-            properNoun: data
-        }).then(getData('/all'))
-    })
+    
+})*/
+
+let userInput = document.getElementById('nameChecker').value;
+const baseUrl = 'https://api.meaningcloud.com/topics-2.0';
+MeaningCloudRequest(baseUrl, apiKey, userInput)
+.then((data)=>{
+    postData('/add', {
+        properNoun: data
+    }).then(getData('/all'))
+
 })
+
 
 }
 export { handleSubmit }
